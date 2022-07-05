@@ -1,0 +1,1 @@
+/*MIDDLEWARE AUTH.JS */

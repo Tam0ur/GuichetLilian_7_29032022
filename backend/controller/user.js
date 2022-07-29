@@ -3,7 +3,20 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-const User = require('../models/user');
+//création utilisateur
+exports.signup = (req, res, next ) => {
+    bcrypt.hash(req.body.password, 10)//hash du mdp
+    .then(hash => {
+        const user = new User({//création nouvel utilisateur avec l'e-mail écrit + mdp hashé
+            email: req.body.email,
+            password: hash
+        });
+        user.save()//sauvegarde utilisateur
+        .then(() => res.status(201).json({ message: 'Utilisateur créé.'}))
+        .catch(error => res.status(400).json({error}));
+    })
+    .catch(error => res.status(500).json({error}));
+};
 
 //création utilisateur
 exports.signup = (req, res, next ) => {
@@ -14,16 +27,15 @@ exports.signup = (req, res, next ) => {
             password: hash
         });
         con.query('SELECT * FROM utilisateurs WHERE email LIKE ? ', user.mail, (err, res) => {
-            if(err) throw err;
-            console.log('utilisateur valide')
+            if (res == 0 ){//gestion si l'utilisateur n'est pas dans la base de données
+                con.query('INSERT INTO utilisateurs VALUES ?', user, (err, res) => {
+                    if (!err){
+                        return res.status(0).json({error : 'Utilisateur inséré.' });
+                    }
+                });
+                return res.status(0).json({error : 'Utilisateur non trouvé.' });
+            }
         });
-        con.query('INSERT INTO utilisateurs VALUES ?', user, (err, res) => {
-            if(err) throw err;
-            console.log('utilisateur inséré');
-        });
-        /*user.save()//sauvegarde utilisateur
-        .then(() => res.status(201).json({ message: 'Utilisateur créé.'}))
-        .catch(error => res.status(400).json({error}));*/
     })
     .catch(error => res.status(500).json({error}));
 };
@@ -54,6 +66,7 @@ exports.login = (req, res, next ) => {
 };
 
 //CREATE
+/*
 function test() {
     const  mail = document.getElementById("mail").innerHTML;
     const mdp = document.getElementById("mdp").innerHTML;
@@ -90,3 +103,4 @@ function test() {
         console.log(`Deleted ${result.affectedRows} row(s)`);
       }
     );
+    */

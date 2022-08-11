@@ -2,7 +2,7 @@
 //appel chemins
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-
+/*
 //création utilisateur
 exports.signup = (req, res, next ) => {
     bcrypt.hash(req.body.password, 10)//hash du mdp
@@ -17,27 +17,33 @@ exports.signup = (req, res, next ) => {
     })
     .catch(error => res.status(500).json({error}));
 };
-
+*/
 //création utilisateur
+//http://localhost:3306/api/auth/signup
 exports.signup = (req, res, next ) => {
+    req.body.email = "test123@gmail.com"
+    req.body.password = "passwordtest"
     bcrypt.hash(req.body.password, 10)//hash du mdp
     .then(hash => {
-        const user = new User({//création nouvel utilisateur avec l'e-mail écrit + mdp hashé
+        const user = {//création nouvel utilisateur avec l'e-mail écrit + mdp hashé
             email: req.body.email,
             password: hash
-        });
+        };
         con.query('SELECT * FROM utilisateurs WHERE email LIKE ? ', user.mail, (err, res) => {
             if (res == 0 ){//gestion si l'utilisateur n'est pas dans la base de données
                 con.query('INSERT INTO utilisateurs VALUES ?', user, (err, res) => {
                     if (!err){
-                        return res.status(0).json({error : 'Utilisateur inséré.' });
+                        return res.status(201).json({message : 'Utilisateur inséré.' });
                     }
                 });
-                return res.status(0).json({error : 'Utilisateur non trouvé.' });
+                return res.status(404).json({error : 'Utilisateur non trouvé.' });
             }
         });
     })
-    .catch(error => res.status(500).json({error}));
+    .catch(error => {
+        res.status(500).json({error})
+        console.log(error)
+    });
 };
 
 //gestion connexion utilisateur

@@ -13,13 +13,10 @@ const con = mysql.createConnection({
   database: "groupomania"
 });
 
-con.connect(process.env.DB_CONNEXION,
-  {
+con.connect({
       useNewUrlParser : true,
       useUnifiedTopology: true 
-  })
-  .then(() => console.log('Connexion à MongoDB réussie !'))
-  .catch(() => console.log('Connexion à MongoDB échouée !'));
+  });
 
 const app = express();
 

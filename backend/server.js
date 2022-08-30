@@ -1,6 +1,6 @@
 /*BACKEND -- NODEMON SERVER*/
 /*FRONTEND -- NPM RUN SERVE*/
-
+require('dotenv').config();
 //déclaration variables 
 const http = require('http');
 const app = require('./app');
@@ -18,7 +18,7 @@ const normalizePort = val => {
 };
 
 //MISE EN PLACE DU PORT POUR L'APPLICATION
-const port = normalizePort(process.env.PORT || '3306');
+const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 //GESTION DE L'ERREUR

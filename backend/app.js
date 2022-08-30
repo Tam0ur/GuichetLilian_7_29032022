@@ -1,22 +1,9 @@
 //appel chemins
 const express = require('express');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+require('./utils/db');
 
 const userRoutes = require('./routes/user');
-
-//connexion à la base de données
-const con = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "groupomania"
-});
-
-con.connect({
-      useNewUrlParser : true,
-      useUnifiedTopology: true 
-  });
 
 const app = express();
 

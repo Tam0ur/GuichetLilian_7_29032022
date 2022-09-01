@@ -39,23 +39,23 @@ exports.signup = (req, res, next ) => {
 exports.login = (req, res, next ) => {
     bcrypt.hash(req.body.password, 10)//hash du mdp
     .then(hash => {
-        const user = {//création nouvel utilisateur avec l'e-mail écrit + mdp hashé
+        const user = {
             email: req.body.email,
             password: hash
         };
-        connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result_email) => {
-            if ( (result_email[0].email) != user.email ){
+        connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result) => {
+            if ( result[0].email != user.email ){
                 return res.status(401).json({error : 'Email incorrect.' });
             }
             else {
-                connection.query('SELECT * FROM utilisateur WHERE mdp LIKE ? ', user.password, (err, result_mdp) => {
-                    if ( (result_mdp[0].mdp) != user.password ){
-                        return res.status(401).json({error : 'Mot de passe incorrect.' });
+                bcrypt.compare(result[0].mdp, user.password)
+                .then(valid => {
+                    if (!valid){//gestion si le mdp ne correspond pas
+                        return res.status(401).json({ error : 'Mot de passe incorrect.'});
                     }
-                    else {
-                        return res.status(401).json({error : 'mdp + email corrects'});
-                    }
+                    return res.status(200).json({ error : 'Mot de passe correct.'});
                 })
+                .catch(error => res.status(500).json({ error }));
             }
         });
     })

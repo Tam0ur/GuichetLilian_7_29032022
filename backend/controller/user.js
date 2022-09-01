@@ -1,7 +1,6 @@
 /*DEPENDANCES*/
 //appel chemins
 const bcrypt = require('bcrypt');
-const json = require('express');
 const jwt = require('jsonwebtoken');
 const connection = require('../utils/db')
 
@@ -53,7 +52,13 @@ exports.login = (req, res, next ) => {
                     if (!valid){//gestion si le mdp ne correspond pas
                         return res.status(401).json({ error : 'Mot de passe incorrect.'});
                     }
-                    return res.status(200).json({ error : 'Mot de passe correct.'});
+                    res.status(200).json({
+                        token: jwt.sign(
+                            { userId: user._id },
+                            'randompassword',
+                            {expiresIn: '24h' }
+                        )
+                    });                
                 })
                 .catch(error => res.status(500).json({ error }));
             }

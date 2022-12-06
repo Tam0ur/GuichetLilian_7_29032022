@@ -3,7 +3,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const connection = require('../utils/db')
-//test
+
 //création utilisateur
 //http://localhost:3000/api/auth/signup
 exports.signup = (req, res, next ) => {

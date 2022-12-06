@@ -64,7 +64,7 @@
 		display: none;
 	}
 	button {
-		border: 2px solid rgba(0, 0, 0, 0.4);
+		border: 2px solid rgba(0, 0, 0);
 		border-radius: 10px;
 		background-color: white;
 		margin: 10px;

@@ -18,16 +18,16 @@
 <script>
 import axios from 'axios'
 export default {
-        name: 'homePage',
+        name: 'postPage',
         data() {
                 return {
                         texte: null,
-                        selectedFile: null
+                        //selectedFile: null
                 }
         },
         methods: {
                 createPost() {
-                        axios.post("http://localhost:3000/api/createPost", {
+                        axios.post("http://localhost:3000/api/post/createPost", {
                                 texte: this.text
                         }).then(response => {
                                 console.log(response)
@@ -35,13 +35,14 @@ export default {
                                 console.log(error)
                         })
                 },
-                fileSelected(event){
-                        this.selectedFile = event.target.file[0]
+                /*fileSelected(event){
+                        console.log(event.target.files[0].name)
+                        this.selectedFile = event.target.files[0]
                 },
                 onUpload(){
                         const fd = new FormData
                         fd.append('image', this.selectedFile, this.selectedFile.name)
-                        axios.post('', fd, {
+                        axios.post('http://localhost:3000/api/createPost', fd, {
                                 onUploadProgress: uploadEvent => {
                                         console.log('Upload Progress: ' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%')
                                 }
@@ -49,7 +50,7 @@ export default {
                         .then(res => {
                                 console.log(res)
                         })
-                }
+                }*/
         }
 }
 </script>

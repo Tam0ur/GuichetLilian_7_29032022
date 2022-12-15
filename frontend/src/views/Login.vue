@@ -29,9 +29,6 @@
 				mdp : null,
 			}
 		},
-		/*computed : {
-			mapState(['token'])
-		},*/
 		methods : {
 			...mapMutations({
 				setToken: "SET_TOKEN"
@@ -43,9 +40,10 @@
 				}).then(response => {
 					alert('Ok')
 					this.setToken(response.data.token)
+					axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 					router.push('/')
 				}).catch(error => {
-					document.getElementById('alert').style.display = "block";
+					//document.getElementById('alert').style.display = "block";
 					console.log(error)
 				})
 			}

@@ -27,7 +27,7 @@ export default {
         },
         methods: {
                 createPost() {
-                        axios.post("http://localhost:3000/api/post/createPost", {
+                        axios.post("http://localhost:3000/api/post/", {
                                 texte: this.text
                         }).then(response => {
                                 console.log(response)

@@ -17,7 +17,7 @@
                                 router.push('./post')
                         },
                         getAllPosts(){
-                                axios.get("http://localhost:3000/api/post/getAllPosts", {
+                                axios.get("http://localhost:3000/api/post/getAll", {
                                 }).then(res => {
                                         document.querySelector(".div_post").innerHTML +=
                                         `<div>

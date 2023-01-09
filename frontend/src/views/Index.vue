@@ -1,8 +1,10 @@
 <template>
-        <div>HOME</div>
-        <div>test</div>
-        <button @click="redirectPost"> + CREATE POST</button>
-        <button @click="getAllPosts"> DISPLAY POST</button>
+        <div>
+                <button @click="redirectPost"> + CREATE POST</button>
+        </div>
+        <div>
+                <button @click="getAllPosts"> DISPLAY POST</button>
+        </div>
         <div class="div_post">ici : </div>
 
 </template>
@@ -35,4 +37,5 @@
 </script>
 
 <style>
+
 </style>

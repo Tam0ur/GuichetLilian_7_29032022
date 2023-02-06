@@ -44,6 +44,7 @@ exports.login = (req, res, next ) => {
         email: req.body.email,
         password: req.body.password
     };
+    console.log('1')
     connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result) => {
         if ( result[0].email != user.email ){
             return res.status(401).json({error : 'Email incorrect.' });
@@ -56,7 +57,7 @@ exports.login = (req, res, next ) => {
                 }
                 res.status(200).json({
                     token: jwt.sign(
-                        { userId: user._id },
+                        { userId: result[0].id },
                         'randompassword',
                         {expiresIn: '24h' }
                     )

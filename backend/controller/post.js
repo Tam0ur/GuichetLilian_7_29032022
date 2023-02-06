@@ -1,11 +1,11 @@
 const connection = require('../utils/db')
 
 exports.createPost = (req, res, next) => {
-    var userId = res.locals.userId
-    var text = req.body.text
-    let date = new Date().toLocaleDateString("fr-FR");
     console.log('1')
-    connection.query('INSERT INTO postes (texte, utilisateur, image, date_Création) VALUES (?, ?, ?, ?)', [text, userId,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, date]), (err, result) => {
+    var userId = res.locals.userId
+    var text = req.body.texte
+    let date = new Date().toLocaleDateString("fr-FR");
+    connection.query('INSERT INTO postes (texte, utilisateur, image, date_Creation) VALUES (?, ?, ?, ?)', [text, userId,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, date]), (err, result) => {
         if (!err){
             return res.status(201).json({message : 'Texte, utilisateur et date insérés.' });
         }
@@ -16,9 +16,10 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
+    
     connection.query('SELECT * FROM postes '), (err, result) => {
         if ( !err ){
-            console.log('TEST')
+            console.log('1')
             res.status(200).json({result});
         }
         else {

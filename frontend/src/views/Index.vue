@@ -3,7 +3,7 @@
                 <button @click="redirectPost"> + CREATE POST</button>
         </div>
         <div>
-                <button @click="getAllPosts"> DISPLAY POST</button>
+                <button @click="getAll"> DISPLAY POST</button>
         </div>
         <div class="div_post">ici : </div>
 
@@ -18,16 +18,15 @@
                         redirectPost(){
                                 router.push('./post')
                         },
-                        getAllPosts(){
-                                axios.get("http://localhost:3000/api/post/getAll", {
+                        getAll(){
+                                axios.get("http://localhost:3306/api/getAllPosts", {
                                 }).then(res => {
                                         document.querySelector(".div_post").innerHTML +=
                                         `<div>
                                                 <h2>User : ${res.utilisateur}</h5>
                                                 <p>Texte : ${res.texte}</p>
-                                                <p>Texte : ${res.date_Création}</p>
+                                                <p>Date : ${res.date_Création}</p>
                                         </div>`;
-                                        console.log(res)
                                 }).catch(error => {
                                         console.log(error)
                                 })
@@ -37,5 +36,4 @@
 </script>
 
 <style>
-
 </style>

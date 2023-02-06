@@ -3,15 +3,18 @@
         <div class="form">
                 <div>
                         <label for="inputText">Texte</label>
-                        <input type="texte" id="inputText" v-model="text" placeholder="">
-                </div>
-                <div>
-                        <input style="display: none" type="file" @change="fileSelected" ref="fileInput">
-                        <button @click="$refs.fileInput.click()">Pick file</button>
-                        <button @click="onUpload">Upload</button>
+                        <input type="text" id="inputText" v-model="texte" placeholder="">
                 </div>
 
-                <button @click="createPost">Post</button>
+                <form @submit.prevent="onSubmit">
+                        <div>
+                                <input type="file" @change="onFileUpload">
+                        </div>
+                        
+                        <div>
+                                <button>Upload File</button>
+                        </div>
+                </form>
         </div>
 </template>
 
@@ -21,36 +24,30 @@ export default {
         name: 'postPage',
         data() {
                 return {
-                        texte: null,
-                        //selectedFile: null
+                        texte: '',
+                        FILE: null,
                 }
         },
         methods: {
-                createPost() {
-                        axios.post("http://localhost:3000/api/post/", {
-                                texte: this.text
-                        }).then(response => {
+                onFileUpload (event) {
+                        this.FILE = event.target.files[0]
+                },
+                onSubmit() {
+                        var formData = new FormData()
+                        formData.append('image', this.FILE)
+                        formData.append('texte', this.texte)
+                        console.log(formData)
+                        axios.post("http://localhost:3000/api/post/createPost", 
+                                formData,
+                                {headers : {
+                                        "Content-Type": "multipart/form-data"
+                                }}
+                        ).then(response => {
                                 console.log(response)
                         }).catch(error => {
                                 console.log(error)
                         })
                 },
-                /*fileSelected(event){
-                        console.log(event.target.files[0].name)
-                        this.selectedFile = event.target.files[0]
-                },
-                onUpload(){
-                        const fd = new FormData
-                        fd.append('image', this.selectedFile, this.selectedFile.name)
-                        axios.post('http://localhost:3000/api/createPost', fd, {
-                                onUploadProgress: uploadEvent => {
-                                        console.log('Upload Progress: ' + Math.round(uploadEvent.loaded / uploadEvent.total * 100) + '%')
-                                }
-                        })
-                        .then(res => {
-                                console.log(res)
-                        })
-                }*/
         }
 }
 </script>

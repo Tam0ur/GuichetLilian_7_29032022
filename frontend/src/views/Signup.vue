@@ -41,7 +41,7 @@
 				this.$router.push('/login')
 			},*/
 			signup(){
-				axios.post("http://localhost:3306/api/auth/signup", {
+				axios.post("http://localhost:3000/api/auth/signup", {
 					name: this.name,
 					fname : this.fname,
 					email : this.email,

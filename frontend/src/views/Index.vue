@@ -5,28 +5,33 @@
         <div>
                 <button @click="getAll"> DISPLAY POST</button>
         </div>
-        <div class="div_post">ici : </div>
+        
+        <template>
+                <posts class="display_posts" v-for="post in posts" :key="post.id"></posts>
+        </template>
 
 </template>
 
 <script>
         import axios from 'axios'
         import router from '../router'
+        import posts from '../components/post'
         export default {
                 name : 'HomePage',
+                data() {
+                return {
+                                posts: '',
+                        }
+                },
                 methods : {
                         redirectPost(){
                                 router.push('./post')
                         },
                         getAll(){
-                                axios.get("http://localhost:3000/api/getAllPosts", {
+                                
+                                axios.get("http://localhost:3000/api/post/getAllPosts", {
                                 }).then(res => {
-                                        document.querySelector(".div_post").innerHTML +=
-                                        `<div>
-                                                <h2>User : ${res.utilisateur}</h5>
-                                                <p>Texte : ${res.texte}</p>
-                                                <p>Date : ${res.date_Création}</p>
-                                        </div>`;
+                                        this.posts = res.data.result
                                 }).catch(error => {
                                         console.log(error)
                                 })
@@ -36,4 +41,12 @@
 </script>
 
 <style>
+.display_posts {
+        border: 1px solid black;
+        margin: 10px;
+}
+img{
+        width: 500px;
+        height: auto;
+}
 </style>

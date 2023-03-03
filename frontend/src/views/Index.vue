@@ -6,22 +6,23 @@
                 <button @click="getAll"> DISPLAY POST</button>
         </div>
         
-        <template>
-                <posts class="display_posts" v-for="post in posts" :key="post.id"></posts>
-        </template>
-
+        <component_post class="display_posts" v-for="post in posts" :key="post.id"></component_post>
+        
 </template>
 
 <script>
         import axios from 'axios'
         import router from '../router'
-        import posts from '../components/post'
+        import component_post from '../components/compo_post.vue'
         export default {
                 name : 'HomePage',
                 data() {
-                return {
-                                posts: '',
-                        }
+                        return {
+                                        posts: '',
+                                }
+                        },
+                components: {
+                        component_post
                 },
                 methods : {
                         redirectPost(){

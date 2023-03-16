@@ -19,6 +19,10 @@
 
 		</div>
 
+		<label>
+			<input type="checkbox" v-model="isChecked">
+			Admin
+		</label>
 		<button @click="signup">Valider</button>
 	</div>
 </template>
@@ -33,7 +37,8 @@
 				name : null,
 				fname : null,
 				email : null,
-				mdp : null
+				mdp : null,
+				isChecked : false,
 			}
 		},
 		methods : {
@@ -45,9 +50,11 @@
 					name: this.name,
 					fname : this.fname,
 					email : this.email,
-					password : this.mdp
+					password : this.mdp,
+					isAdmin : this.isChecked
 				}).then(response => {
 					alert('Ok')
+					console.log(this.isChecked)
 					console.log(response)
 				}).catch(error => {
 					alert('Pas ok')
@@ -61,7 +68,9 @@
 
 <!-- HTML !-->
 <style>
-	
+	input[type="checkbox"] {
+		width: 15px;
+	}
 	label {
 		width: 100px;
 	}

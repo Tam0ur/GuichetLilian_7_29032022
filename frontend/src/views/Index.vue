@@ -4,9 +4,10 @@
         </div>
         <div>
                 <button @click="getAll"> DISPLAY POST</button>
+                
         </div>
         
-        <component_post class="display_posts" v-for="post in posts" :key="post.id"></component_post>
+        <component_post class="display_posts" v-for="post in posts" :key="post.id" :post="post"></component_post>
         
 </template>
 
@@ -29,14 +30,14 @@
                                 router.push('./post')
                         },
                         getAll(){
-                                
                                 axios.get("http://localhost:3000/api/post/getAllPosts", {
                                 }).then(res => {
                                         this.posts = res.data.result
                                 }).catch(error => {
                                         console.log(error)
                                 })
-                        }
+                        },
+                        
                 }
         }
 </script>

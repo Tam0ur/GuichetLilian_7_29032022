@@ -26,6 +26,7 @@ export default {
                 return {
                         texte: '',
                         FILE: null,
+                        post: null,
                 }
         },
         methods: {
@@ -48,7 +49,8 @@ export default {
                                 console.log(error)
                         })
                 },
-        }
+        },
+        
 }
 </script>
 

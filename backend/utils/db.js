@@ -1,10 +1,10 @@
 const mysql = require('mysql');
 
 const connection = mysql.createConnection({
-  host     : process.env.MYSQL_URL || 'sql11.freemysqlhosting.net',
-  user     : process.env.MYSQL_USERNAME || 'sql11591126',
-  password : process.env.MYSQL_PASSWORD || 'bq8kgTJ13z',
-  database : process.env.MYSQL_DATABASE || 'sql11591126',
+  host     : process.env.MYSQL_URL || 'sql7.freemysqlhosting.net',
+  user     : process.env.MYSQL_USERNAME || 'sql7614494',
+  password : process.env.MYSQL_PASSWORD || 'Hhwn9kHGTW',
+  database : process.env.MYSQL_DATABASE || 'sql7614494',
 });
 
 //connexion à la base de données

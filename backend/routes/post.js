@@ -8,12 +8,11 @@ const multer = require('../middleware/multer-config');
 
 const postCtrl = require('../controller/post');
 
-//gestion chemin fonctions sauce
-router.get('/getAllPosts', postCtrl.getAllPosts);
+//gestion chemin fonctions post
+router.get('/getAllPosts', auth,  postCtrl.getAllPosts);
 router.post('/createPost', auth, multer, postCtrl.createPost);
 router.get('/getThisPost/:id', auth, postCtrl.getThisPost);
 router.delete('/deletePost/:id', auth, postCtrl.deletePost);
-/*router.put('/:id', auth, multer, postCtrl.modifySauce);
-router.post('/:id/like', auth, postCtrl.likeSauce);
-*/
+router.put('/updatePost/:id', auth, multer, postCtrl.updatePost);
+
 module.exports = router;

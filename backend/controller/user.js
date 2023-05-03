@@ -13,12 +13,12 @@ exports.signup = (req, res, next ) => {
             name : req.body.name,
             fname : req.body.fname,
             email: req.body.email,
-            password: hash
+            password: hash,
+            check: req.body.admin
         };
         connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result) => {
-            console.log(result)
             if (result.length == 0 ){//gestion si l'utilisateur n'est pas dans la base de données
-                connection.query('INSERT INTO utilisateur (nom, prenom, email, mdp) VALUES (?, ?, ?, ? )', [user.name, user.fname, user.email, user.password], (err, result) => {
+                connection.query('INSERT INTO utilisateur (nom, prenom, email, mdp) VALUES (?, ?, ?, ?)', [user.name, user.fname, user.email, user.password], (err, result) => {
                     if (!err){
                         return res.status(201).json({message : 'Utilisateur inséré.' });
                     }
@@ -44,7 +44,6 @@ exports.login = (req, res, next ) => {
         email: req.body.email,
         password: req.body.password
     };
-    console.log('1')
     connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result) => {
         if ( result[0].email != user.email ){
             return res.status(401).json({error : 'Email incorrect.' });
@@ -60,18 +59,27 @@ exports.login = (req, res, next ) => {
                         { userId: result[0].id },
                         'randompassword',
                         {expiresIn: '24h' }
-                    )
+                    ),
+                    userId: result[0].id 
                 });
             })
             .catch(error => res.status(500).json({ error }));
         }
     }); 
 };
-/*
-  //UPDATE
-  connection.query(
-'UPDATE utilisateurs SET city = ? Where ID = ?',['John Doe', 1]
-  
-  //DESTROY
-'DELETE FROM utilisateurs WHERE id = ?', [5], (err, result) => {
-*/
+
+//gestion suppression utilisateur
+exports.deleteUser = (req, res, next ) => {
+    const userId = req.params.userId;
+
+    connection.query('DELETE FROM utilisateur WHERE id = ?',
+    [userId],
+    (error, result) => {
+        if ( !error ){
+            res.status(200).json({result});
+        }
+        else {
+            res.status(500).json({ error : 'Problème suppression utilisateur.'})
+        }
+    })
+}

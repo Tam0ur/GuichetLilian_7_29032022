@@ -12,6 +12,16 @@ const routes = [
     component: () => import('../views/Post.vue')
   },
   {
+    path: '/user',
+    name: 'User',
+    component: () => import('../views/User.vue')
+  },
+  {
+    path: '/post/edit/:id',
+    name: 'editPost',
+    component: () => import( '../components/voir_post.vue' )
+  },
+  {
     path: '/signup',
     name: 'signup',
     component: () => import('../views/Signup.vue')
@@ -20,7 +30,8 @@ const routes = [
     path: '/login',
     name: 'login',
     component: () => import( '../views/Login.vue' )
-  }
+  },
+  
 ]
 
 const router = createRouter({

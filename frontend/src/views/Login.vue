@@ -1,4 +1,3 @@
-
 <template>
 	<div class="form">
 		<div>
@@ -31,7 +30,8 @@
 		},
 		methods : {
 			...mapMutations({
-				setToken: "SET_TOKEN"
+				setToken: "SET_TOKEN",
+				setUserId: "SET_USERID"
 			}),
 			login(){
 				axios.post("http://localhost:3000/api/auth/login", {
@@ -40,6 +40,7 @@
 				}).then(response => {
 					alert('Ok')
 					this.setToken(response.data.token)
+					this.setUserId(response.data.userId)
 					axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 					router.push('/')
 				}).catch(error => {

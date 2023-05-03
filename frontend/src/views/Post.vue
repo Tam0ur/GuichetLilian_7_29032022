@@ -10,9 +10,8 @@
                         <div>
                                 <input type="file" @change="onFileUpload">
                         </div>
-                        
                         <div>
-                                <button>Upload File</button>
+                                <button>Post</button>
                         </div>
                 </form>
         </div>
@@ -20,13 +19,13 @@
 
 <script>
 import axios from 'axios'
+import router from '../router'
 export default {
         name: 'postPage',
         data() {
                 return {
                         texte: '',
                         FILE: null,
-                        post: null,
                 }
         },
         methods: {
@@ -34,17 +33,20 @@ export default {
                         this.FILE = event.target.files[0]
                 },
                 onSubmit() {
+                        const today = new Date();
+                        const formattedDate = today.toLocaleDateString(); // format the date in the desired format
+
                         var formData = new FormData()
                         formData.append('image', this.FILE)
                         formData.append('texte', this.texte)
-                        console.log(formData)
-                        axios.post("http://localhost:3000/api/post/createPost", 
-                                formData,
-                                {headers : {
+                        formData.append('date', formattedDate)
+                        axios.post("http://localhost:3000/api/post/createPost", formData, {
+                                headers : {
                                         "Content-Type": "multipart/form-data"
                                 }}
                         ).then(response => {
                                 console.log(response)
+                                router.push('/')
                         }).catch(error => {
                                 console.log(error)
                         })

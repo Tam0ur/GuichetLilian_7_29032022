@@ -45,6 +45,7 @@ export default {
                                         "Content-Type": "multipart/form-data"
                                 }}
                         ).then(response => {
+                                console.log(formattedDate)
                                 console.log(response)
                                 router.push('/')
                         }).catch(error => {

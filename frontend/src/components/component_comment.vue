@@ -1,8 +1,8 @@
 <template lang="">
     
-    <div v-if="comment.utilisateur != userId">
+    <div v-if="comment.utilisateur_id != userId">
         <p>{{ comment.texte }}</p>
-        <h4>User :{{ comment.utilisateur }}</h4>
+        <h4>User :{{ comment.utilisateur_id }}</h4>
         <p>Date : {{ comment.date_Creation }}</p>
     </div>
 
@@ -13,10 +13,10 @@
                 <input type="text" id="inputCom" v-model="texte">
             </div>
             <p>Date : {{ comment.date_Creation }}</p>
-                <div class="button_flex">
-                    <button class="button_edit"><font-awesome-icon icon="fa-solid fa-pen" /></button>
-                    <button class="button_delete" @click="deleteComment"><font-awesome-icon icon="trash" /></button>
-                </div>
+            <div class="button_flex">
+                <button class="button_edit"><font-awesome-icon icon="fa-solid fa-pen" /></button>
+                <button class="button_delete" @click="deleteComment"><font-awesome-icon icon="trash" /></button>
+            </div>
             </form>
         
     </div>
@@ -26,6 +26,7 @@
 <script>
 
 import axios from 'axios'
+import { mapState } from 'vuex';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -36,6 +37,9 @@ library.add(faTrash)
 library.add(faPen)
 
     export default {
+        computed : mapState({
+            userId : state => state.userId
+        }),
         data(){
             return {
                 commentTxt: '',
@@ -83,7 +87,6 @@ library.add(faPen)
 
 
 <style lang="scss">
-    
 input{
     width: 80%;
 }

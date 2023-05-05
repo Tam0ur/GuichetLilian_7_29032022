@@ -88,12 +88,7 @@
         flex-direction: row;
         justify-content: center;
 }
-.button_post{
-        border: 1px solid #5f8a77;
-        position: absolute;
-        right: 10px;
-        width:  10%;
-}
+
 .user{
         position: absolute;
         right: 10px;

@@ -14,7 +14,7 @@
 			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
 		</div>
 		<div>
-			<label for="inputMdp">Mot de passe</label>
+			<label for="inputMdp">Mdp</label>
 			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
 
 		</div>

@@ -13,18 +13,16 @@
         <div class="row">
             <p>{{ post.utilisateur }}</p>
             <p> : {{ post.texte }}</p>
-        </div>
-        
-        <div class="row">
-            <p>{{ post.date_Creation }}</p>
-            <button class="button_post" @click="deletePost"><font-awesome-icon icon="trash" /></button>
-        </div>
+        </div>    
+        <p>{{ post.date_Creation }}</p>
+        <button class="button_post" @click="deletePost"><font-awesome-icon icon="trash" /></button>
     </div>
 </template>
 
 
 <script>
 import router from '../router'
+import { mapState } from 'vuex'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -32,6 +30,9 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons'
 library.add(faTrash)
 
     export default {
+        computed : mapState({
+            userId : state => state.userId
+        }),
         props: {
             post : Object
         },

@@ -5,7 +5,7 @@
 			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
 		</div>
 		<div>
-			<label for="inputMdp">Mot de passe</label>
+			<label for="inputMdp">Mdp</label>
 			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
 		</div>
 
@@ -38,7 +38,6 @@
 					email : this.email,
 					password : this.mdp
 				}).then(response => {
-					alert('Ok')
 					this.setToken(response.data.token)
 					this.setUserId(response.data.userId)
 					axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;

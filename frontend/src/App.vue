@@ -1,5 +1,5 @@
 <template>
-  <div v-if="userId != null">
+  <div class="div_nav" v-if="userId != null" >
     <nav>
       <router-link to="/">HOME</router-link>
       <router-link to="/post">Post</router-link>
@@ -26,19 +26,32 @@ export default {
 </script>
 
 <style lang="scss">
+
+
 .div_else {
+  position: absolute;
+  top: 40%;
+  align-self: center;
   margin: auto;
   a {
+    color: black;
     text-decoration: none;
     padding: 20px;
     font-size: 50px;
+    border-top: 2px solid rgb(155, 155, 155);
+    border-bottom: 2px solid rgb(155, 155, 155);
     &:first-child{
-      border: 2px solid black;
-      border-radius: 20px 0 0 20px ;
+      
+      border-right: 2px solid rgb(155, 155, 155);
+      border-radius: 8px 0 0 8px ;
     }
     &:last-child{
-      border: 2px solid black;
-      border-radius: 0 20px 20px 0 ;
+      border-radius: 0 8px 8px 0 ;
+    }
+    &:hover{
+      cursor: pointer;
+      transition-duration: 0.3s;
+      box-shadow: 0px 0px 10px 0px #7bb99d;
     }
   }
 }
@@ -56,10 +69,12 @@ export default {
   justify-content: center;
   color: #2c3e50;
 }
+html{
+  height: fit-content;
+}
 
 body {
   width: 100%;
-  height: 100%;
   
   background-image: linear-gradient(90deg, #42b983 1%, white 15%, white 85%, #42b983 99%);
   background-position: 50% 100%;
@@ -88,6 +103,7 @@ input {
 }
 
 nav {
+  margin-top: 50px;
   background-color: white;
   width: 20%;
   display: flex;
@@ -116,8 +132,6 @@ nav {
       border-bottom: 0px;
     }
     &:hover{
-      
-      border-radius: 2px;
       transition-duration: 0.4s;
       transition-property: background-color, color;
       background-color: #94e1be;

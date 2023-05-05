@@ -1,21 +1,22 @@
 <template lang="">
-    <div v-if="post.utilisateur != userId">
+    <div class="post" v-if="post.utilisateur != userId">
         <img v-if="post.image != null" :src="post.image">
         <p>{{ post.texte }}</p>      
         <h4>User :{{ post.utilisateur }}</h4>
         <p>Date : {{ post.date_Creation }}</p>
     </div>
 
-    <div v-else>
+    <div class="post" v-else>
         <form @submit.prevent="updatePost">
             <img v-if="post.image != null" :src="post.image">
+            <div >
+                <label for="inputText">Texte</label>
+                <input type="text" id="inputText" v-model="texte">
+            </div>
             <div>
                 <input type="file" @change="onImageChange">
             </div>   
-            <div>
-                <label for="inputText">Texte</label>
-                <input type="text" id="inputText" v-model="texte">
-            </div>       
+            
             <div>
                 <button>Update post</button>
             </div>
@@ -23,13 +24,13 @@
                 <p>Date : {{ post.date_Creation }}</p>
         </form>
     </div>
-    
+    <div class="border_bottom"></div>
         <form class="comment" @submit.prevent="createComment">
                 <label for="inputCom">Commentaire</label>
                 <input type="text" id="inputCom" v-model="commentTexte">
                 <button>Comment</button>
         </form>
-        
+        <div class="border_bottom"></div>
         <component_comment class="style_comments"  v-for="comment in comments" :key="comment.id" :comment="comment"></component_comment>    
     
     
@@ -39,9 +40,13 @@
 
 import axios from 'axios'
 import router from '../router'
+import { mapState } from 'vuex'
 import component_comment from './component_comment.vue'
 
 export default {
+    computed : mapState({
+            userId : state => state.userId
+    }),
     data() {
         return {
             post: '',
@@ -128,6 +133,20 @@ export default {
 
 
 <style lang="scss">
+form {
+    width: auto;
+}
+input{
+    width: 80%;
+}
+.border_bottom {
+    width: 700px;
+    border-bottom: 2px solid grey;
+    align-self: center;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+
 .style_comments {
     background-color: white;
     display: inline-flex;
@@ -137,7 +156,7 @@ export default {
     margin-bottom: 15px;
     text-align: center;
     width: 500px;
-    border: 2px solid rgb(159, 159, 159);
+    border: 2px solid rgb(128, 128, 128);
     border-radius: 5px;
     &:hover{
         cursor: pointer;
@@ -145,7 +164,18 @@ export default {
         box-shadow: 0px 0px 10px 0px #7bb99d;
     }
 }
-
+.post { 
+    padding:  25px;
+    align-self: center;
+    width: fit-content;
+    border: 2px solid grey;
+    border-radius: 5px;
+    &:hover{
+        cursor: pointer;
+        transition-duration: 0.3s;
+        box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+}
 .comment {
     align-self: center;
     display: flex;

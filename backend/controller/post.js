@@ -2,10 +2,12 @@ const connection = require('../utils/db')
 const moment = require('moment')
 
 exports.createPost = (req, res, next) => {
+
     var userId = res.locals.userId
     var text = req.body.texte
 
-    const date = req.body.date;    
+    const date = req.body.date;  
+    console.log(date)  
     connection.query('INSERT INTO poste (texte, utilisateur, image, date_Creation) VALUES (?, ?, ?, ?)', 
     [text, userId,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, date], 
     (error, result) => {

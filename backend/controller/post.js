@@ -8,7 +8,7 @@ exports.createPost = (req, res, next) => {
 
     const date = req.body.date;  
     console.log(date)  
-    connection.query('INSERT INTO poste (texte, utilisateur, image, date_Creation) VALUES (?, ?, ?, ?)', 
+    connection.query('INSERT INTO poste (texte, utilisateur_id, image, date_Creation) VALUES (?, ?, ?, ?)', 
     [text, userId,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, date], 
     (error, result) => {
         if (!error){

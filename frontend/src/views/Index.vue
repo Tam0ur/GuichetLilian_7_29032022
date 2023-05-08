@@ -72,7 +72,7 @@
         border: 2px solid rgb(159, 159, 159);
         border-radius: 5px;
         margin: 0 auto;
-        margin-bottom: 20px;
+        margin-top: 20px;
         padding: 15px;
 
         display: flex;
@@ -82,6 +82,15 @@
                 transition-duration: 0.3s;
                 box-shadow: 0px 0px 10px 0px #7bb99d;
         }
+        p {
+                margin-bottom: 0;
+        }
+}
+.button_post{
+        position: absolute;
+        bottom: 15px;
+        right: 10px;
+        width: fit-content;
 }
 .row{
         display: inline-flex;

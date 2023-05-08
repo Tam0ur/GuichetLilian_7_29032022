@@ -23,6 +23,7 @@
 <script>
 import router from '../router'
 import { mapState } from 'vuex'
+
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -43,8 +44,9 @@ library.add(faTrash)
             redirectPost(){
                 router.push(`/post/edit/${this.post.id}`)
             },
-            deletePost(){
-                this.$parent.deletePost(this.comment.id)
+            deletePost(event){
+                event.stopPropagation(); 
+                this.$parent.deletePost(this.post.id)
             }
         },
     }

@@ -148,6 +148,7 @@ input{
 }
 
 .style_comments {
+    position: relative;
     background-color: white;
     display: inline-flex;
     flex-flow: column nowrap;

@@ -17,8 +17,7 @@
                 <button class="button_edit"><font-awesome-icon icon="fa-solid fa-pen" /></button>
                 <button class="button_delete" @click="deleteComment"><font-awesome-icon icon="trash" /></button>
             </div>
-            </form>
-        
+        </form>
     </div>
         
 </template>
@@ -97,10 +96,19 @@ input{
 }
 .button_flex {
     display: flex;
-    flex-flow: column nowrap;
+    flex-flow: row nowrap;
     align-self: flex-end;
 }
-
+.button_edit{
+    position: absolute;
+    right: 0;
+    bottom: 30%;
+}
+.button_delete{
+    position: absolute;
+    right: 0;
+    bottom: 10px;
+}
 </style>
 
 

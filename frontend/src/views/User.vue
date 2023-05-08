@@ -4,7 +4,7 @@
     </div>
     <div>
         <p>Supprimer votre compte :</p>
-        <button @click="deleteUser"></button>
+        <button @click="deleteUser"><font-awesome-icon icon="trash" /></button>
     </div>
 </template>
 <script>
@@ -13,7 +13,16 @@ import axios from 'axios'
 import router from '../router'
 import { mapActions } from 'vuex';
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faTrash)
+
 export default {
+    components: {
+            FontAwesomeIcon
+    },
     methods : {
         ...mapActions(['logout']),
         deleteUser(id){

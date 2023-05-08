@@ -56,7 +56,19 @@
 
 
 
-<style>
+<style lang="scss">
+.form {
+	align-self: center;
+	border: 2px solid rgb(167, 167, 167);
+	width: fit-content;
+	padding: 10px;
+	border-radius: 5px;
+	&:hover{
+        cursor: pointer;
+        transition-duration: 0.3s;
+        box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+}
 	#alerte{
 		color: red;
 		display: none;

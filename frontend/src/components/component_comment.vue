@@ -1,18 +1,20 @@
 <template lang="">
     
-    <div v-if="comment.utilisateur_id != userId">
+    <div class="comment" v-if="comment.utilisateur_id != userId">
         <p>{{ comment.texte }}</p>
         <h4>User :{{ comment.utilisateur_id }}</h4>
-        <p>Date : {{ comment.date_Creation }}</p>
+        <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
+        <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
     </div>
 
-    <div v-else>
+    <div class="comment" v-else>
         <form @submit.prevent="updateComment">
             <div >
                 <h4>User :{{ comment.utilisateur_id }}</h4>
-                <input type="text" id="inputCom" v-model="texte">
+                <input type="text" v-model="texte">
             </div>
-            <p>Date : {{ comment.date_Creation }}</p>
+            <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
+            <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
             <div class="button_flex">
                 <button class="button_edit"><font-awesome-icon icon="fa-solid fa-pen" /></button>
                 <button class="button_delete" @click="deleteComment"><font-awesome-icon icon="trash" /></button>
@@ -52,14 +54,9 @@ library.add(faPen)
             FontAwesomeIcon
         },
         methods: {
-            getThisComment(){
-                axios.get(`http://localhost:3000/api/comment/getThisComment/${this.$route.params.id}`, {
-                }).then(res => {
-                    this.commentTxt = res.data.result[0] 
-                    this.texte = res.data.result[0].texte
-                }).catch(error => {
-                    console.log(error)
-                })
+            formatDate(date){
+                date = new Date(date)
+                return date.toLocaleDateString('en-GB');
             },
             updateComment(){
                 const formData = new FormData();
@@ -78,9 +75,6 @@ library.add(faPen)
                 this.$parent.deleteComment(this.comment.id)
             },
         },
-        mounted() {
-            this.getThisComment();
-        },
     }
 </script>
 
@@ -94,20 +88,39 @@ input{
     flex-direction: row;
     justify-content: center;
 }
-.button_flex {
-    display: flex;
-    flex-flow: row nowrap;
-    align-self: flex-end;
-}
-.button_edit{
-    position: absolute;
-    right: 0;
-    bottom: 30%;
-}
-.button_delete{
-    position: absolute;
-    right: 0;
-    bottom: 10px;
+
+.comment {
+    position: relative;
+    width: 100%;
+    & .utilisateur {
+        font-weight: bold;
+    }
+    & .date_Creation {
+        font-weight: bold;
+        text-align: end;
+        color: rgb(125, 125, 125);
+    }
+    & .date_Modification {
+        font-weight: bold;
+        text-align: end;
+        color: rgb(125, 125, 125);
+        font-size: 13px;
+    }
+    & .button_flex {
+        display: flex;
+        flex-flow: row nowrap;
+        align-self: flex-end;
+    }
+    & .button_edit{
+        position: absolute;
+        right: 0;
+        bottom: 30%;
+    }
+    & .button_delete{
+        position: absolute;
+        right: 0;
+        top: 2vh;
+    }
 }
 </style>
 

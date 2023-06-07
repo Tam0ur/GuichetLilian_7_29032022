@@ -1,16 +1,9 @@
 <template>
         <button class="user" @click="redirectUser"><font-awesome-icon icon="fa-solid fa-user" /></button>
-        <div>
-                <button @click="redirectPost"> + CREATE POST</button>
-        </div>
-        
         <component_post class="style_posts" v-for="post in posts" :key="post.id" :post="post"></component_post>
-        
 </template>
 
 <script>
-
-
         import { library } from '@fortawesome/fontawesome-svg-core'
         import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
         import { faUser } from '@fortawesome/free-solid-svg-icons'
@@ -32,9 +25,6 @@
                         FontAwesomeIcon
                 },
                 methods : {
-                        redirectPost(){
-                                router.push('./post')
-                        },
                         redirectUser(){
                                 router.push('./user')
                         },
@@ -68,7 +58,7 @@
 .style_posts {
         background-color: white;
         position: relative;
-        width: fit-content;
+        width: 500px;
         border: 2px solid rgb(159, 159, 159);
         border-radius: 5px;
         margin: 0 auto;
@@ -92,11 +82,7 @@
         right: 10px;
         width: fit-content;
 }
-.row{
-        display: inline-flex;
-        flex-direction: row;
-        justify-content: center;
-}
+
 
 .user{
         position: absolute;
@@ -108,5 +94,8 @@ img{
         width: 500px;
         height: auto;
         
+}
+body{
+        height: fit-content;
 }
 </style>

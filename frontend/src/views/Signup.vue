@@ -1,20 +1,20 @@
 
 <template>
-	<div class="form">
+	<div class="form_signup">
 		<div>
-				<label for="inputFName">Prénom</label>
-				<input type="text" id="inputFName" v-model="fname" placeholder="John" required>
+				<label for="inputNom">Nom </label>
+				<input type="text" id="inputNom" v-model="nom" placeholder="Doe" required>
 		</div>
 		<div>
-				<label for="inputLName">Nom </label>
-				<input type="text" id="inputLName" v-model="name" placeholder="Doe" required>
+				<label for="inputPrenom">Prénom</label>
+				<input type="text" id="inputPrenom" v-model="prenom" placeholder="John" required>
 		</div>
 		<div>
 			<label for="inputEmail">E-mail</label>
 			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
 		</div>
 		<div>
-			<label for="inputMdp">Mdp</label>
+			<label for="inputMdp">Mot de passe</label>
 			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
 
 		</div>
@@ -25,13 +25,13 @@
 
 <script>
 	import axios from 'axios'
-	//import router from '../router/index'
+	import router from '../router/index'
 	export default {
 		name: 'SignupForm',
 		data (){
 			return{
-				name : null,
-				fname : null,
+				nom : null,
+				prenom : null,
 				email : null,
 				mdp : null,
 			}
@@ -39,15 +39,14 @@
 		methods : {
 			signup(){
 				axios.post("http://localhost:3000/api/auth/signup", {
-					name: this.name,
-					fname : this.fname,
+					nom: this.nom,
+					prenom : this.prenom,
 					email : this.email,
-					password : this.mdp,
+					mdp : this.mdp,
 				}).then(response => {
-					alert('Ok')
+					router.push('/')
 					console.log(response)
 				}).catch(error => {
-					alert('Pas ok')
 					console.log(error)
 				})
 			}
@@ -57,12 +56,13 @@
 </script>
 
 <!-- HTML !-->
-<style>
+<style lang="scss">
 	input[type="checkbox"] {
 		width: 15px;
 	}
 	label {
-		width: 100px;
+		width: 120px;
+		display: inline-flex;
 	}
 	input{
 		width: 200px;
@@ -71,4 +71,19 @@
 		margin: 5px;
 		padding: 3px;
 	}
+
+	.form_signup {
+	margin-top: 35vh;
+	align-self: center;
+	justify-content: center;
+	border: 2px solid rgb(167, 167, 167);
+	width: fit-content;
+	padding: 10px;
+	border-radius: 5px;
+	&:hover{
+        cursor: pointer;
+        transition-duration: 0.3s;
+        box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+}
 </style>

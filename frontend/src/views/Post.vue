@@ -1,6 +1,6 @@
 <template>
 
-        <div class="form">
+        <div class="form_post">
                 <div>
                         <label for="inputText">Texte</label>
                         <input type="text" id="inputText" v-model="texte" placeholder="">
@@ -11,7 +11,7 @@
                                 <input type="file" @change="onFileUpload">
                         </div>
                         <div>
-                                <button>Post</button>
+                                <button>Poster</button>
                         </div>
                 </form>
         </div>
@@ -45,7 +45,6 @@ export default {
                                         "Content-Type": "multipart/form-data"
                                 }}
                         ).then(response => {
-                                console.log(formattedDate)
                                 console.log(response)
                                 router.push('/')
                         }).catch(error => {
@@ -57,7 +56,20 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="scss">
+.form_post {
+        margin-top: 35vh;
+	align-self: center;
+	justify-content: center;
+	border: 2px solid rgb(167, 167, 167);
+	width: fit-content;
+	padding: 10px;
+	border-radius: 5px;
+	&:hover{
+        cursor: pointer;
+        transition-duration: 0.3s;
+        box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+}
 </style>
 

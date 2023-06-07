@@ -1,12 +1,13 @@
 <template lang="">
-    <div class="post" v-if="post.utilisateur != userId">
+    <div class="poste" v-if="post.utilisateur_id == userId">
         <img v-if="post.image != null" :src="post.image">
         <p>{{ post.texte }}</p>      
-        <h4>User :{{ post.utilisateur }}</h4>
-        <p>Date : {{ post.date_Creation }}</p>
+        <h4>User :{{ post.utilisateur_id }}</h4>
+        <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
+        <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
     </div>
 
-    <div class="post" v-else>
+    <div class="poste" v-else>
         <form @submit.prevent="updatePost">
             <img v-if="post.image != null" :src="post.image">
             <div >
@@ -21,17 +22,22 @@
                 <button>Update post</button>
             </div>
                 <h4>User :{{ post.utilisateur }}</h4>
-                <p>Date : {{ post.date_Creation }}</p>
+                <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
+                <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
         </form>
     </div>
+
     <div class="border_bottom"></div>
-        <form class="comment" @submit.prevent="createComment">
-                <label for="inputCom">Commentaire</label>
-                <input type="text" id="inputCom" v-model="commentTexte">
-                <button>Comment</button>
-        </form>
-        <div class="border_bottom"></div>
-        <component_comment class="style_comments"  v-for="comment in comments" :key="comment.id" :comment="comment"></component_comment>    
+
+    <form class="comment" @submit.prevent="createComment">
+            <label for="inputCom">Commentaire</label>
+            <input type="text" id="inputCom" v-model="commentTexte">
+            <button>Comment</button>
+    </form>
+
+    <div class="border_bottom"></div>
+    
+    <component_comment class="style_comments"  v-for="comment in comments" :key="comment.id" :comment="comment"></component_comment>    
     
     
 </template>
@@ -48,6 +54,7 @@ export default {
             userId : state => state.userId
     }),
     data() {
+        
         return {
             post: '',
             texte: '',
@@ -63,6 +70,10 @@ export default {
         component_comment
     },
     methods: {
+        formatDate(date){
+            date = new Date(date)
+            return date.toLocaleDateString('en-GB');
+        },
         getThisPost(){
                 axios.get(`http://localhost:3000/api/post/getThisPost/${this.$route.params.id}`, {
                 }).then(res => {
@@ -103,8 +114,15 @@ export default {
             axios.post(`http://localhost:3000/api/comment/createComment`, {
                 comText: this.commentTexte,
                 postId: this.post.id,
+                
             }).then(res => {
-                console.log(res)
+                axios.get(`http://localhost:3000/api/comment/getThisComment/${res.data.insertId}`, {
+                }).then(res => {
+                    this.comments.push(res.data.result[0])
+                    this.commentTexte= ''
+                }).catch(error => {
+                    console.log(error)
+                })
             }).catch(error => {
                 console.log(error)
             })
@@ -134,7 +152,7 @@ export default {
 
 <style lang="scss">
 form {
-    width: auto;
+    width: inherit;
 }
 input{
     width: 80%;
@@ -165,16 +183,33 @@ input{
         box-shadow: 0px 0px 10px 0px #7bb99d;
     }
 }
-.post { 
+
+.poste {
+    margin-top: 25px;
+    position: relative;
     padding:  25px;
     align-self: center;
-    width: fit-content;
+    width: 500px;
     border: 2px solid grey;
     border-radius: 5px;
     &:hover{
         cursor: pointer;
         transition-duration: 0.3s;
         box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+    & .utilisateur {
+        font-weight: bold;
+    }
+    & .date_Creation {
+        font-weight: bold;
+        text-align: end;
+        color: rgb(125, 125, 125);
+    }
+    & .date_Modification {
+        font-weight: bold;
+        text-align: end;
+        color: rgb(125, 125, 125);
+        font-size: 13px;
     }
 }
 .comment {

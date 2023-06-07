@@ -1,11 +1,11 @@
 <template>
-	<div class="form">
+	<div class="form_login">
 		<div>
 			<label for="inputEmail">E-mail</label>
 			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
 		</div>
 		<div>
-			<label for="inputMdp">Mdp</label>
+			<label for="inputMdp">Mot de passe</label>
 			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
 		</div>
 
@@ -36,14 +36,14 @@
 			login(){
 				axios.post("http://localhost:3000/api/auth/login", {
 					email : this.email,
-					password : this.mdp
+					mdp : this.mdp
 				}).then(response => {
 					this.setToken(response.data.token)
 					this.setUserId(response.data.userId)
 					axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 					router.push('/')
 				}).catch(error => {
-					//document.getElementById('alert').style.display = "block";
+					document.getElementById('alerte').style.display = "block";
 					console.log(error)
 				})
 			}
@@ -57,8 +57,10 @@
 
 
 <style lang="scss">
-.form {
+.form_login {
+	margin-top: 35vh;
 	align-self: center;
+	justify-content: center;
 	border: 2px solid rgb(167, 167, 167);
 	width: fit-content;
 	padding: 10px;
@@ -69,15 +71,20 @@
         box-shadow: 0px 0px 10px 0px #7bb99d;
     }
 }
-	#alerte{
-		color: red;
-		display: none;
+#alerte{
+	color: red;
+	display: none;
+}
+input[type="checkbox"] {
+		width: 15px;
 	}
 	label {
+		width: 120px;
 		display: inline-flex;
-		width: 100px;
 	}
-
+	input{
+		width: 200px;
+	}
 	label, input {
 		margin: 5px;
 		padding: 3px;

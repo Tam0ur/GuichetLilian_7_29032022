@@ -7,10 +7,12 @@ module.exports = (req, res, next) => {
         const token = req.headers.authorization.split(' ')[1];//récupération tout après l'espace header
         const decodedToken = jwt.verify(token, 'randompassword');//vérification du token
         const userId = decodedToken.userId;//extraction ID utilisateur du token
+        const isAdmin = decodedToken.isAdmin;//extraction ID utilisateur du token
         if (req.body.userId && req.body.userId !== userId){//comparaison des ID
             throw 'User ID non valable';
         } else {
             res.locals.userId = userId;
+            res.locals.isAdmin = isAdmin;
             next();
         }
     } catch(error){

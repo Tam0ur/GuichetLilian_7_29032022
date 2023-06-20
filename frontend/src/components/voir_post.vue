@@ -1,17 +1,17 @@
 <template lang="">
-    <div class="poste" v-if="post.utilisateur_id == userId">
+    <div class="poste_2" v-if="post.utilisateur_id != userId">
         <img v-if="post.image != null" :src="post.image">
         <p>{{ post.texte }}</p>      
-        <h4>User :{{ post.utilisateur_id }}</h4>
+        <h4>{{ post.prenom }} {{ post.nom }}</h4>
         <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
         <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
     </div>
 
-    <div class="poste" v-else>
+    <div class="poste_2" v-else>
         <form @submit.prevent="updatePost">
             <img v-if="post.image != null" :src="post.image">
-            <div >
-                <label for="inputText">Texte</label>
+            <div>
+                <label for="inputText"></label>
                 <input type="text" id="inputText" v-model="texte">
             </div>
             <div>
@@ -19,9 +19,9 @@
             </div>   
             
             <div>
-                <button>Update post</button>
+                <button>Mettre à jour</button>
             </div>
-                <h4>User :{{ post.utilisateur }}</h4>
+                <h4>{{ post.prenom }} {{ post.nom }}</h4>
                 <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
                 <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
         </form>
@@ -29,10 +29,10 @@
 
     <div class="border_bottom"></div>
 
-    <form class="comment" @submit.prevent="createComment">
+    <form class="add_comment" @submit.prevent="createComment">
             <label for="inputCom">Commentaire</label>
             <input type="text" id="inputCom" v-model="commentTexte">
-            <button>Comment</button>
+            <button>Commenter</button>
     </form>
 
     <div class="border_bottom"></div>
@@ -90,7 +90,6 @@ export default {
             axios.get(`http://localhost:3000/api/comment/getAllComments/${this.$route.params.id}`, {
             }).then(res => {
                 this.comments = JSON.parse(JSON.stringify(res.data)) 
-                console.log("test" , this.comments)
             }).catch(error => {
                 console.log(error)
             })
@@ -151,9 +150,7 @@ export default {
 
 
 <style lang="scss">
-form {
-    width: inherit;
-}
+
 input{
     width: 80%;
 }
@@ -184,11 +181,13 @@ input{
     }
 }
 
-.poste {
+.poste_2 {
+    margin: 0px;
     margin-top: 25px;
     position: relative;
     padding:  25px;
     align-self: center;
+    text-align: center;
     width: 500px;
     border: 2px solid grey;
     border-radius: 5px;
@@ -201,18 +200,20 @@ input{
         font-weight: bold;
     }
     & .date_Creation {
+        margin: 0;
         font-weight: bold;
         text-align: end;
         color: rgb(125, 125, 125);
     }
     & .date_Modification {
+        margin: 0;
         font-weight: bold;
         text-align: end;
         color: rgb(125, 125, 125);
         font-size: 13px;
     }
 }
-.comment {
+.add_comment {
     align-self: center;
     display: flex;
     flex-direction: row;

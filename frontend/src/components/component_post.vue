@@ -3,6 +3,7 @@
         <img v-if="post.image != null" :src="post.image">
         <div>
             <p class="utilisateur">{{ post.prenom }} {{ post.nom }} </p>
+            <p>{{ post.id }}</p>
             <p>{{ post.texte }}</p>
         </div>
         <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
@@ -13,11 +14,12 @@
         <img v-if="post.image != null" :src="post.image">
         <div >
             <p class="utilisateur">{{ post.prenom }} {{ post.nom }}</p>
+            <p>{{ post.id }}</p>
             <p>{{ post.texte }}</p>
         </div>    
         <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
         <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
-        <button @click="deletePost($event)"><font-awesome-icon icon="trash" /></button>
+        <button class="button_delete" @click="deletePost($event)"><font-awesome-icon icon="trash" /></button>
     </div>
 </template>
 
@@ -77,6 +79,13 @@ library.add(faTrash)
         text-align: end;
         color: rgb(125, 125, 125);
         font-size: 13px;
+    }
+    & .button_delete {
+        position: absolute;
+        bottom: 78px;
+        right: 20px;
+        margin: 0;
+        width: fit-content;
     }
 }
 

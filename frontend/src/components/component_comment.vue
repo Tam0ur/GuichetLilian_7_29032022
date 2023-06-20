@@ -1,8 +1,8 @@
 <template lang="">
     
     <div class="comment" v-if="comment.utilisateur_id != userId">
-        <p>{{ comment.texte }}</p>
-        <h4>User :{{ comment.utilisateur_id }}</h4>
+        <p class="utilisateur">{{ comment.prenom }} {{ comment.nom }}</p>
+        <p class="comment_txt">{{ comment.texte }}</p>
         <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
         <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
     </div>
@@ -10,8 +10,10 @@
     <div class="comment" v-else>
         <form @submit.prevent="updateComment">
             <div >
-                <h4>User :{{ comment.utilisateur_id }}</h4>
-                <input type="text" v-model="texte">
+                <p class="utilisateur">{{ comment.prenom }} {{ comment.nom }}</p>
+            </div>
+            <div>
+                <input type="text" id="inputText" v-model="commentTxt">
             </div>
             <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
             <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
@@ -44,7 +46,6 @@ library.add(faPen)
         data(){
             return {
                 commentTxt: '',
-                texte: '',
             }
         },
         props: {
@@ -57,6 +58,14 @@ library.add(faPen)
             formatDate(date){
                 date = new Date(date)
                 return date.toLocaleDateString('en-GB');
+            },
+            getThisComment(){
+                axios.get(`http://localhost:3000/api/comment/getThisComment/${this.$route.params.id}`, {
+                }).then(res => {
+                    this.commentTxt = res.data.texte 
+                }).catch(error => {
+                    console.log(error)
+                })
             },
             updateComment(){
                 const formData = new FormData();
@@ -72,16 +81,20 @@ library.add(faPen)
                 })
             },
             deleteComment(){
-                this.$parent.deleteComment(this.comment.id)
+                this.$parent.deleteComment(this.comment.id);
             },
+        },
+
+        mounted() {
+            this.getThisComment();
         },
     }
 </script>
 
 
 <style lang="scss">
-input{
-    width: 80%;
+.input_com{
+    width: 95%;
 }
 .row{
     display: inline-flex;
@@ -94,16 +107,22 @@ input{
     width: 100%;
     & .utilisateur {
         font-weight: bold;
+        align-self: flex-start;
+    }
+    & #inputText {
+        align-self: flex-start;
     }
     & .date_Creation {
         font-weight: bold;
         text-align: end;
         color: rgb(125, 125, 125);
+        margin-right: 10px;
     }
     & .date_Modification {
         font-weight: bold;
         text-align: end;
         color: rgb(125, 125, 125);
+        margin-right: 10px;
         font-size: 13px;
     }
     & .button_flex {
@@ -113,13 +132,13 @@ input{
     }
     & .button_edit{
         position: absolute;
-        right: 0;
-        bottom: 30%;
+        left: 10px;
+        bottom: 0.75vh;
     }
     & .button_delete{
         position: absolute;
-        right: 0;
-        top: 2vh;
+        left: 45px;
+        bottom: 0.75vh;
     }
 }
 </style>

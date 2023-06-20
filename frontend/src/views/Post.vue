@@ -1,20 +1,14 @@
 <template>
 
-        <div class="form_post">
+        <form class="form_post" @submit.prevent="onSubmit">
                 <div>
                         <label for="inputText">Texte</label>
                         <input type="text" id="inputText" v-model="texte" placeholder="">
                 </div>
+                <input type="file" @change="onFileUpload">
+                <button>Poster</button>
+        </form>
 
-                <form @submit.prevent="onSubmit">
-                        <div>
-                                <input type="file" @change="onFileUpload">
-                        </div>
-                        <div>
-                                <button>Poster</button>
-                        </div>
-                </form>
-        </div>
 </template>
 
 <script>
@@ -58,18 +52,23 @@ export default {
 
 <style lang="scss">
 .form_post {
+        display: flex;
+        flex-flow: column nowrap;
         margin-top: 35vh;
 	align-self: center;
-	justify-content: center;
+        align-items: center;
 	border: 2px solid rgb(167, 167, 167);
 	width: fit-content;
 	padding: 10px;
 	border-radius: 5px;
 	&:hover{
-        cursor: pointer;
-        transition-duration: 0.3s;
-        box-shadow: 0px 0px 10px 0px #7bb99d;
-    }
+                cursor: pointer;
+                transition-duration: 0.3s;
+                box-shadow: 0px 0px 10px 0px #7bb99d;
+        }
+        & button {
+                width: fit-content;
+        }
 }
 </style>
 

@@ -1,5 +1,4 @@
 const connection = require('../utils/db')
-const moment = require('moment')
 
 exports.createPost = (req, res, next) => {
 
@@ -20,7 +19,7 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-    connection.query(' SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, u.id, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id', 
+    connection.query(' SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id', 
     (error, result) => {
         if ( !error ){
             res.status(200).json({result});
@@ -33,10 +32,9 @@ exports.getAllPosts = (req, res, next) => {
 }
 
 exports.getThisPost = (req, res, next) => {
-
     const postId = req.params.id;
 
-    connection.query('SELECT * FROM poste WHERE id=?', 
+    connection.query('SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification,  nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id WHERE p.id=?', 
     [postId],
     (error, result) => {
         if ( !error ){
@@ -51,7 +49,7 @@ exports.getThisPost = (req, res, next) => {
 exports.deletePost= (req, res, next) => {
     const postId = req.params.id;
 
-    if( post.utilisateur_id == req.user.id || req.user.isAdmin == 1 ){
+    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
         connection.query('DELETE FROM poste WHERE id=?',
         [postId],
         (error, result) => {
@@ -71,10 +69,9 @@ exports.deletePost= (req, res, next) => {
 }
 
 exports.updatePost = (req, res, next) => {
-
     const text = req.body.texte
-        
-    if( post.utilisateur_id == req.user.id || req.user.isAdmin == 1 ){
+    
+    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
         connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
         [text,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, req.params.id],
         (error, result) => {

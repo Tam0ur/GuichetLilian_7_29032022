@@ -1,5 +1,6 @@
 <template>
-  <div v-if="userId != null" >
+  <div class="div_app" v-if="userId != null" >
+    <img src="./assets/groupomania.png" alt="groupomania_logo" class="logo">
     <nav>
       <router-link to="/"><font-awesome-icon icon="house"/> Accueil</router-link>
       <router-link to="/post"><font-awesome-icon icon="plus"/> Poster</router-link>
@@ -10,7 +11,6 @@
   <div v-else class="div_else">
     <router-link to="/login">Connexion</router-link>
     <router-link to="/signup">S'inscrire</router-link>
-    
   </div>
   <router-view />
 </template>
@@ -50,8 +50,19 @@ export default {
 </script>
 
 <style lang="scss">
+.div_app{
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo{
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
 nav {
-  margin-top: 50px;
+  margin-top: 150px;
   background-color: white;
   width: 18%;
   display: flex;

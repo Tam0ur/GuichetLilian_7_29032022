@@ -50,43 +50,63 @@ exports.getThisComment = (req, res, next) => {
 exports.deleteComment = ( req, res, next ) => {
     const commentId = req.params.id;
 
-    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
-        connection.query('DELETE FROM commentaire WHERE id=?',
-        [commentId],
-        (error, result) => {
-            if ( !error ){
-                res.status(200).json({result});
+    connection.query('SELECT utilisateur_id FROM commentaire WHERE id=?', [commentId],
+        (error_1, result_1) => {
+            if ( !error_1 ){
+                const com_userId = result_1[0].utilisateur_id;
+                res.status(200).json({result_1});
+                if( res.locals.userId == com_userId || res.locals.isAdmin == 1 ){
+                    connection.query('DELETE FROM commentaire WHERE id=?',
+                    [commentId],
+                    (error_2, result_2) => {
+                        if ( !error_2 ){
+                            res.status(200).json({result_2});
+                        }
+                        else {
+                            res.status(500).json({ error_2 : 'Problème suppression commentaire.'})
+                        }
+                    })
+                } else {
+                    res.status(403).json({
+                        message: 'unauthorized request.'
+                    });
+                }
             }
             else {
-                res.status(500).json({ error : 'Problème suppression commentaire.'})
+                res.status(500).json({ error_1 : 'Aucun utilisateur correspondant à cet id pour ce commentaire.'})
             }
-        })
-    } else {
-        res.status(403).json({
-            message: 'unauthorized request.'
-        });
-    }
+    });
 }
 
 exports.updateComment = ( req, res, next ) => {
     const text = req.body.texte
     const commentId = req.params.id;
 
-    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
-    connection.query('UPDATE commentaire SET texte = ?, date_Modification = NOW() WHERE id = ?',
-    [text, formattedDate, commentId],
-        (error, result) => {
-            if ( !error ){
-                res.status(200).json({result});
+    connection.query('SELECT utilisateur_id FROM commentaire WHERE id=?', [commentId], 
+    (error_1, result_1) => {
+        if ( !error_1 ){
+            const com_userId = result_1[0].utilisateur_id;
+            if( res.locals.userId == com_userId || res.locals.isAdmin == 1 ){
+                connection.query('UPDATE commentaire SET texte = ?, date_Modification = NOW() WHERE id = ?',
+                [text, commentId],
+                    (error_2, result_2) => {
+                        if ( !error_2 ){
+                            console.log('2')
+                            res.status(200).json({result_2});
+                        }
+                        else {
+                            console.log('3')
+                            res.status(500).json({ error_2 : 'Problème mise à jour commentaire.'})
+                        } 
+                    });
+            } else {
+                console.log('4')
+                res.status(403).json({ message: 'unauthorized request.'});
             }
-            else {
-                res.status(500).json({ error : 'Problème mise à jour commentaire.'})
-            } 
-        });
-    } else {
-        res.status(403).json({
-            message: 'unauthorized request.'
-        });
-    }
+        }
+        else {
+            console.log('5')
+            res.status(500).json({ error_1 : 'Aucun utilisateur correspondant à cet id pour ce commentaire.'})
+        } 
+    });
 }
-

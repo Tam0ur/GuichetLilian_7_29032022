@@ -49,43 +49,64 @@ exports.getThisPost = (req, res, next) => {
 exports.deletePost= (req, res, next) => {
     const postId = req.params.id;
 
-    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
-        connection.query('DELETE FROM poste WHERE id=?',
-        [postId],
-        (error, result) => {
-            if ( !error ){
-                res.status(200).json({result});
+    connection.query('SELECT utilisateur_id FROM poste WHERE id=?', [postId],
+        (error_1, result_1) => {
+            if ( !error_1 ){
+                const post_userId = result_1[0].utilisateur_id;
+                res.status(200).json({result_1});
+                if( res.locals.userId == post_userId || res.locals.isAdmin == 1 ){
+                    connection.query('DELETE FROM poste WHERE id=?',
+                    [postId],
+                    (error_2, result_2) => {
+                        if ( !error_2 ){
+                            res.status(200).json({result_2});
+                        }
+                        else {
+                            res.status(500).json({ error_2 : 'Problème suppression poste.'})
+                        }
+                    })
+                } else {
+                    res.status(403).json({
+                        message: 'unauthorized request.'
+                    });
+                }
             }
             else {
-                res.status(500).json({ error : 'Problème suppression poste.'})
+                res.status(500).json({ error_1 : 'Aucun utilisateur correspondant à cet id pour ce poste.'})
             }
-        })
-    } else {
-        res.status(403).json({
-            message: 'unauthorized request.'
-        });
-    }
-    
+    });
 }
 
 exports.updatePost = (req, res, next) => {
     const text = req.body.texte
+    const postId = req.params.id
+    const image = req.file != null ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null
     
-    if( req.locals.userId == req.user.id || req.locals.isAdmin == 1 ){
-        connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
-        [text,`${req.protocol}://${req.get('host')}/images/${req.file.filename}`, req.params.id],
-        (error, result) => {
-            if ( !error ){
-                res.status(200).json({result});
+    connection.query('SELECT utilisateur_id FROM poste WHERE id=?', [postId],
+        (error_1, result_1) => {
+            if ( !error_1 ){
+                const post_userId = result_1[0].utilisateur_id;
+                res.status(200).json({result_1});
+                if( res.locals.userId == post_userId || res.locals.isAdmin == 1 ){
+                    connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
+                    [text,image , req.params.id],
+                    (error_2, result_2) => {
+                        if ( !error_2 ){
+                            res.status(200).json({result_2});
+                        }
+                        else {
+                            res.status(500).json({ error_2 : 'Problème mise à jour poste.'})
+                        } 
+                    });
+                } else {
+                    res.status(403).json({
+                        message: 'unauthorized request.'
+                    });
+                }
             }
             else {
-                res.status(500).json({ error : 'Problème mise à jour poste.'})
-            } 
-        });
-    } else {
-        res.status(403).json({
-            message: 'unauthorized request.'
-        });
-    }
+                res.status(500).json({ error_1 : 'Aucun utilisateur correspondant à cet id pour ce poste.'})
+            }
+    });
 }
 

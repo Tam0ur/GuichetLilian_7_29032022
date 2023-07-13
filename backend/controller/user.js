@@ -58,7 +58,8 @@ exports.login = (req, res, next ) => {
                         'randompassword',
                         {expiresIn: '24h' }
                     ),
-                    userId: result[0].id 
+                    userId: result[0].id,
+                    isAdmin: result[0].isAdmin,
                 });
             })
             .catch(error => res.status(500).json({ error }));
@@ -68,7 +69,7 @@ exports.login = (req, res, next ) => {
 
 //gestion suppression utilisateur
 exports.deleteUser = (req, res, next ) => {
-    const userId = req.params.userId;
+    const userId = req.params.id;
 
     connection.query('DELETE FROM utilisateur WHERE id = ?',
     [userId],
@@ -77,6 +78,7 @@ exports.deleteUser = (req, res, next ) => {
             res.status(200).json({result});
         }
         else {
+            
             res.status(500).json({ error : 'Problème suppression utilisateur.'})
         }
     })

@@ -21,7 +21,7 @@ exports.createComment = ( req, res, next ) => {
 
 exports.getAllComments = ( req, res, next ) => {
     const postId = req.params.id;
-    connection.query('SELECT c.id, texte, utilisateur_id, date_Creation, date_Modification, u.id, nom, prenom, isAdmin FROM commentaire c INNER JOIN utilisateur u ON c.utilisateur_id = u.id WHERE poste_id= ?',
+    connection.query('SELECT c.id, texte, utilisateur_id, date_Creation, date_Modification, u.id, nom, prenom, isAdmin FROM commentaire c INNER JOIN utilisateur u ON c.utilisateur_id = u.id WHERE poste_id= ? ORDER BY c.id DESC',
     [postId],
     (error, result) => {
         if ( !error ){

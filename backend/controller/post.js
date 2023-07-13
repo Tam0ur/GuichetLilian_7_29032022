@@ -19,7 +19,7 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-    connection.query(' SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id', 
+    connection.query(' SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id ORDER BY p.id DESC', 
     (error, result) => {
         if ( !error ){
             res.status(200).json({result});

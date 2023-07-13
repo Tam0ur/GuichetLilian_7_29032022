@@ -1,26 +1,25 @@
 <template >
-    <div class="poste" v-if="post.utilisateur_id != userId" v-on:click="redirectPost">
+    <div class="poste" v-if="post.utilisateur_id == userId || isAdmin == 1" v-on:click="redirectPost">
         <img v-if="post.image != null" :src="post.image">
-        <div>
-            <p class="utilisateur">{{ post.prenom }} {{ post.nom }} </p>
-            <p>{{ post.id }}</p>
+        <div >
+            <p class="utilisateur">{{ post.prenom }} {{ post.nom }}</p>
             <p>{{ post.texte }}</p>
-        </div>
+        </div>    
         <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
-        <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
+        <p class="date_Modification" v-if="post.date_Modification != null">modif: {{ formatDate(post.date_Modification) }}</p>
+        <button class="button_delete" @click="deletePost($event)"><font-awesome-icon icon="trash" /></button>
     </div>
 
     <div class="poste" v-else v-on:click="redirectPost">
         <img v-if="post.image != null" :src="post.image">
-        <div >
-            <p class="utilisateur">{{ post.prenom }} {{ post.nom }}</p>
-            <p>{{ post.id }}</p>
+        <div>
+            <p class="utilisateur">{{ post.prenom }} {{ post.nom }} </p>
             <p>{{ post.texte }}</p>
-        </div>    
+        </div>
         <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
-        <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
-        <button class="button_delete" @click="deletePost($event)"><font-awesome-icon icon="trash" /></button>
+        <p class="date_Modification" v-if="post.date_Modification != null">modif: {{ formatDate(post.date_Modification) }}</p>
     </div>
+
 </template>
 
 
@@ -36,7 +35,8 @@ library.add(faTrash)
 
     export default {
         computed : mapState({
-            userId : state => state.userId
+            userId : state => state.userId,
+            isAdmin : state => state.isAdmin,
         }),
         props: {
             post : Object
@@ -78,7 +78,7 @@ library.add(faTrash)
         font-weight: bold;
         text-align: end;
         color: rgb(125, 125, 125);
-        font-size: 13px;
+        font-size: 14px;
     }
     & .button_delete {
         position: absolute;

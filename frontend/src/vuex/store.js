@@ -6,6 +6,7 @@ export default createStore({
   state: {
     token : null,
     userId : null,
+    isAdmin : null,
   },
   getters: {
     getToken(state){
@@ -13,6 +14,9 @@ export default createStore({
     },
     getUserId(state){
       return state.userId;
+    },
+    getIsAdmin(state){
+      return state.isAdmin;
     }
   },
   mutations: {
@@ -22,9 +26,13 @@ export default createStore({
     SET_USERID(state, userId){
       state.userId = userId;
     },
+    SET_ISADMIN(state, isAdmin){
+      state.isAdmin = isAdmin;
+    },
     clearAuth(state) {
-      state.userId = null;
       state.token = null;
+      state.userId = null;
+      state.isAdmin = null;
       delete axios.defaults.headers.common['Authorization'];
     }
   },

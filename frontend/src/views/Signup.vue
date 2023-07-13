@@ -73,9 +73,12 @@
 	}
 
 	.form_signup {
+	display: flex;
+	flex-direction: column;
 	margin-top: 35vh;
 	align-self: center;
 	justify-content: center;
+	text-align: center;
 	border: 2px solid rgb(167, 167, 167);
 	width: fit-content;
 	padding: 10px;
@@ -85,5 +88,13 @@
         transition-duration: 0.3s;
         box-shadow: 0px 0px 10px 0px #7bb99d;
     }
+	& div{
+		display: flex;
+		flex-direction: row;
+	}
+	& button {
+		width: fit-content;
+		align-self: center;
+	}
 }
 </style>

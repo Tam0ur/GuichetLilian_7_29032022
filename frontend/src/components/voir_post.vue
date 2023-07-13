@@ -1,13 +1,6 @@
 <template lang="">
-    <div class="poste_2" v-if="post.utilisateur_id != userId">
-        <img v-if="post.image != null" :src="post.image">
-        <p>{{ post.texte }}</p>      
-        <h4>{{ post.prenom }} {{ post.nom }}</h4>
-        <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
-        <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
-    </div>
 
-    <div class="poste_2" v-else>
+    <div class="poste_2" v-if="post.utilisateur_id == userId || isAdmin == 1">
         <form @submit.prevent="updatePost">
             <img v-if="post.image != null" :src="post.image">
             <div>
@@ -23,16 +16,24 @@
             </div>
                 <h4>{{ post.prenom }} {{ post.nom }}</h4>
                 <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
-                <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ post.date_Modification }}</p>
+                <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ formatDate(post.date_Modification) }}</p>
         </form>
+    </div>
+
+    <div class="poste_2" v-else>
+        <img v-if="post.image != null" :src="post.image">
+        <p>{{ post.texte }}</p>      
+        <h4>{{ post.prenom }} {{ post.nom }}</h4>
+        <p class="date_Creation">{{ formatDate(post.date_Creation) }}</p>
+        <p class="date_Modification" v-if="post.date_Modification != null">modifié le : {{ formatDate(post.date_Modification) }}</p>
     </div>
 
     <div class="border_bottom"></div>
 
     <form class="add_comment" @submit.prevent="createComment">
-            <label for="inputCom">Commentaire</label>
-            <input type="text" id="inputCom" v-model="commentTexte">
-            <button>Commenter</button>
+        <label for="inputCom">Commentaire</label>
+        <input type="text" id="inputCom" v-model="commentTexte">
+        <button>Commenter</button>
     </form>
 
     <div class="border_bottom"></div>
@@ -51,7 +52,8 @@ import component_comment from './component_comment.vue'
 
 export default {
     computed : mapState({
-            userId : state => state.userId
+            userId : state => state.userId,
+            isAdmin : state => state.isAdmin,
     }),
     data() {
         
@@ -151,9 +153,7 @@ export default {
 
 <style lang="scss">
 
-input{
-    width: 80%;
-}
+
 .border_bottom {
     width: 700px;
     border-bottom: 2px solid grey;

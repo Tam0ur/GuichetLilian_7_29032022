@@ -1,13 +1,6 @@
 <template lang="">
     
-    <div class="comment" v-if="comment.utilisateur_id != userId">
-        <p class="utilisateur">{{ comment.prenom }} {{ comment.nom }}</p>
-        <p class="comment_txt">{{ comment.texte }}</p>
-        <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
-        <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
-    </div>
-
-    <div class="comment" v-else>
+    <div class="comment" v-if="comment.utilisateur_id == userId || isAdmin == 1">
         <form @submit.prevent="updateComment">
             <div >
                 <p class="utilisateur">{{ comment.prenom }} {{ comment.nom }}</p>
@@ -16,14 +9,21 @@
                 <input type="text" id="inputText" v-model="commentTxt">
             </div>
             <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
-            <p class="date_Modification" v-if="comment.date_Modification != null">modifié le : {{ comment.date_Modification }}</p>
+            <p class="date_Modification" v-if="comment.date_Modification != null">modif: {{ formatDate(comment.date_Modification) }}</p>
             <div class="button_flex">
                 <button class="button_edit"><font-awesome-icon icon="fa-solid fa-pen" /></button>
                 <button class="button_delete" @click="deleteComment"><font-awesome-icon icon="trash" /></button>
             </div>
         </form>
     </div>
-        
+
+    <div class="comment" v-else>
+        <p class="utilisateur">{{ comment.prenom }} {{ comment.nom }}</p>
+        <p class="comment_txt">{{ comment.texte }}</p>
+        <p class="date_Creation">{{ formatDate(comment.date_Creation) }}</p>
+        <p class="date_Modification" v-if="comment.date_Modification != null">modif: {{ formatDate(comment.date_Modification) }}</p>
+    </div>
+
 </template>
 
 <script>
@@ -41,7 +41,8 @@ library.add(faPen)
 
     export default {
         computed : mapState({
-            userId : state => state.userId
+            userId : state => state.userId,
+            isAdmin : state => state.isAdmin,
         }),
         data(){
             return {
@@ -60,17 +61,17 @@ library.add(faPen)
                 return date.toLocaleDateString('en-GB');
             },
             getThisComment(){
-                axios.get(`http://localhost:3000/api/comment/getThisComment/${this.$route.params.id}`, {
+                axios.get(`http://localhost:3000/api/comment/getThisComment/${this.comment.id}`, {
                 }).then(res => {
-                    this.commentTxt = res.data.texte 
+                    this.commentTxt = res.data.result[0].texte
                 }).catch(error => {
                     console.log(error)
                 })
             },
             updateComment(){
                 const formData = new FormData();
-                formData.append('texte', this.texte)
-                axios.put(`http://localhost:3000/api/comment/updateComment/${this.commentTxt.id}`, formData, {
+                formData.append('texte', this.commentTxt)
+                axios.put(`http://localhost:3000/api/comment/updateComment/${this.comment.id}`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
@@ -123,7 +124,7 @@ library.add(faPen)
         text-align: end;
         color: rgb(125, 125, 125);
         margin-right: 10px;
-        font-size: 13px;
+        font-size: 14px;
     }
     & .button_flex {
         display: flex;

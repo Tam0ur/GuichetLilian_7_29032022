@@ -92,10 +92,7 @@
 }
 img{
         width: 500px;
-        height: auto;
-        
+        height: auto;   
 }
-body{
-        height: fit-content;
-}
+
 </style>

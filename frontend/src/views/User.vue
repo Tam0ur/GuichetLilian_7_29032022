@@ -13,20 +13,27 @@ import router from '../router'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { mapState } from 'vuex'
+import { mapActions } from 'vuex';
 
 library.add(faTrash)
 
 export default {
+    computed : mapState({
+            userId : state => state.userId,
+    }),
     components: {
             FontAwesomeIcon
     },
     methods : {
-        deleteUser(id){
+        ...mapActions(['logout']),
+        deleteUser(){
             if(confirm('Voulez-vous supprimer votre compte ?')){
-                axios.delete(`http://localhost:3000/api/user/deleteUser/${id}`, {
+                axios.delete(`http://localhost:3000/api/auth/deleteUser/${this.userId}`, {
                 }).then(res => {
                     console.log(res)
-                    router.push('./')
+                    this.logout();
+                    router.push('/login')
                 }).catch(error => {
                     console.log(error)
                 })
@@ -38,6 +45,7 @@ export default {
 </script>
 <style lang="scss">
 .div_suppression {
+    display: flex;
     margin-top: 35vh;
 	align-self: center;
 	justify-content: center;

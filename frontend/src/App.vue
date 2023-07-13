@@ -1,9 +1,9 @@
 <template>
   <div v-if="userId != null" >
     <nav>
-      <router-link to="/">Accueil</router-link>
-      <router-link to="/post">Poster</router-link>
-      <button @click="fullLogout">Déconnexion</button>
+      <router-link to="/"><font-awesome-icon icon="house"/> Accueil</router-link>
+      <router-link to="/post"><font-awesome-icon icon="plus"/> Poster</router-link>
+      <button @click="fullLogout"><font-awesome-icon icon="right-from-bracket"/> Déconnexion</button>
     </nav>
   </div>
 
@@ -19,6 +19,16 @@
 import { mapState } from 'vuex';
 import { mapActions } from 'vuex';
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faHouse)
+library.add(faPlus)
+library.add(faRightFromBracket)
+
 import router from './router'
 
 export default {
@@ -33,6 +43,9 @@ export default {
         router.push('/login')
       }
     },
+    components: {
+      FontAwesomeIcon
+    },
 	}
 </script>
 
@@ -40,7 +53,7 @@ export default {
 nav {
   margin-top: 50px;
   background-color: white;
-  width: 20%;
+  width: 18%;
   display: flex;
   position: fixed;
   flex-direction: column;
@@ -52,14 +65,16 @@ nav {
   left: 2%;
   justify-content: space-evenly;
   margin-bottom: 30px;
+
+  border-radius: 5px;
+  border: 2px solid rgb(55, 150, 90);
+  
   button {
     font-weight: bold;
     font-size: 17px;
-    width:80%;
     height: 60px;
     border: none;
     margin: 0;
-    border-radius: 0;
     &:hover{
       transition-duration: 0.4s;
       transition-property: background-color, color;
@@ -67,12 +82,10 @@ nav {
     }
   }
   a {
-    
-    font-size: 17px;
-    display: grid;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    
-    width:80%;
+    font-size: 17px;
     height: 60px;
 
     font-weight: bold;
@@ -82,9 +95,6 @@ nav {
     border-bottom: 2px solid #b3b3b3;
     &.router-link-exact-active {
       color: #42b983;
-    }
-    &:nth-child(4){
-      border-bottom: 0px;
     }
     &:hover{
       transition-duration: 0.4s;
@@ -138,16 +148,14 @@ nav {
   color: #2c3e50;
 }
 html{
-  height: 100vh;
+  height: fit-content;
 }
 
 body {
-  height: 100vh;
-  width: 100vw;
   
   background-image: linear-gradient(90deg, #42b983 1%, white 15%, white 85%, #42b983 99%);
   background-position: 50% 100%;
-  background-repeat: no-repeat;
+  background-size: cover;
   margin: 0;
 }
 

@@ -2,8 +2,7 @@
 
         <form class="form_post" @submit.prevent="onSubmit">
                 <div>
-                        <label for="inputText">Texte</label>
-                        <input type="text" id="inputText" v-model="texte" placeholder="">
+                        <input type="text" id="inputText" v-model="texte" placeholder="Votre texte :">
                 </div>
                 <input type="file" @change="onFileUpload">
                 <button>Poster</button>
@@ -52,13 +51,14 @@ export default {
 
 <style lang="scss">
 .form_post {
+        width: 400px;
         display: flex;
         flex-flow: column nowrap;
         margin-top: 35vh;
 	align-self: center;
         align-items: center;
+        text-align: center;
 	border: 2px solid rgb(167, 167, 167);
-	width: fit-content;
 	padding: 10px;
 	border-radius: 5px;
 	&:hover{
@@ -69,6 +69,12 @@ export default {
         & button {
                 width: fit-content;
         }
+        & input {
+                width: 300px;
+        }
+}
+body{
+        height: 100vh;
 }
 </style>
 

@@ -19,7 +19,7 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getAllPosts = (req, res, next) => {
-    connection.query(' SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id ORDER BY p.id DESC', 
+    connection.query('SELECT p.id, texte, utilisateur_id, image, date_Creation, date_Modification, nom, prenom, isAdmin FROM poste p INNER JOIN utilisateur u ON p.utilisateur_id = u.id ORDER BY p.id DESC', 
     (error, result) => {
         if ( !error ){
             res.status(200).json({result});
@@ -53,7 +53,6 @@ exports.deletePost= (req, res, next) => {
         (error_1, result_1) => {
             if ( !error_1 ){
                 const post_userId = result_1[0].utilisateur_id;
-                res.status(200).json({result_1});
                 if( res.locals.userId == post_userId || res.locals.isAdmin == 1 ){
                     connection.query('DELETE FROM poste WHERE id=?',
                     [postId],
@@ -86,7 +85,6 @@ exports.updatePost = (req, res, next) => {
         (error_1, result_1) => {
             if ( !error_1 ){
                 const post_userId = result_1[0].utilisateur_id;
-                res.status(200).json({result_1});
                 if( res.locals.userId == post_userId || res.locals.isAdmin == 1 ){
                     connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
                     [text,image , req.params.id],

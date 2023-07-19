@@ -86,6 +86,10 @@
 		width: fit-content;
 		align-self: center;
 	}
+	@media (max-width: 599px) {
+    background-color: white;
+	width: 85%;
+  }
 }
 #alerte{
 	color: red;

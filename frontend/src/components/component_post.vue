@@ -87,6 +87,7 @@ library.add(faTrash)
         margin: 0;
         width: fit-content;
     }
+    
 }
 
 </style>

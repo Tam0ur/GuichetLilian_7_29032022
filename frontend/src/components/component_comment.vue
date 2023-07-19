@@ -63,7 +63,8 @@ library.add(faPen)
             getThisComment(){
                 axios.get(`http://localhost:3000/api/comment/getThisComment/${this.comment.id}`, {
                 }).then(res => {
-                    this.commentTxt = res.data.result[0].texte
+                    console.log(res)
+                    this.commentTxt = this.comment.texte
                 }).catch(error => {
                     console.log(error)
                 })
@@ -77,6 +78,7 @@ library.add(faPen)
                     }
                 }).then(res => {
                     console.log(res)
+                    this.$forceUpdate();
                 }).catch(error => {
                     console.log(error)
                 })
@@ -85,7 +87,6 @@ library.add(faPen)
                 this.$parent.deleteComment(this.comment.id);
             },
         },
-
         mounted() {
             this.getThisComment();
         },
@@ -112,6 +113,7 @@ library.add(faPen)
     }
     & #inputText {
         align-self: flex-start;
+        width: 90%;
     }
     & .date_Creation {
         font-weight: bold;

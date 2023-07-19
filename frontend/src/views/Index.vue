@@ -75,6 +75,9 @@
         p {
                 margin-bottom: 0;
         }
+        @media ( max-width: 899px) {
+                width: 75%;
+        }
 }
 .button_post{
         position: absolute;
@@ -93,6 +96,9 @@
 img{
         width: 500px;
         height: auto;   
+        @media ( max-width: 899px) {
+                width: 100%;
+        }
 }
 
 </style>

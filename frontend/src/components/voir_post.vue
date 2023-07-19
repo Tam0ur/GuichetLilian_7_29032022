@@ -115,7 +115,6 @@ export default {
             axios.post(`http://localhost:3000/api/comment/createComment`, {
                 comText: this.commentTexte,
                 postId: this.post.id,
-                
             }).then(res => {
                 axios.get(`http://localhost:3000/api/comment/getThisComment/${res.data.insertId}`, {
                 }).then(res => {
@@ -129,8 +128,10 @@ export default {
             })
         },
         deleteComment(id){
+            console.log(id)
             axios.delete(`http://localhost:3000/api/comment/deleteComment/${id}`, {
             }).then(res => {
+                
                 const index = this.comments.findIndex( e => e.id === id )
                 this.comments.splice(index, 1 )
                 console.log(res)
@@ -160,6 +161,9 @@ export default {
     align-self: center;
     margin-top: 25px;
     margin-bottom: 25px;
+    @media ( max-width: 899px) {
+        width: 75%;
+    }
 }
 
 .style_comments {
@@ -178,6 +182,9 @@ export default {
         cursor: pointer;
         transition-duration: 0.3s;
         box-shadow: 0px 0px 10px 0px #7bb99d;
+    }
+    @media ( max-width: 899px) {
+        width: 75%;
     }
 }
 
@@ -212,11 +219,27 @@ export default {
         color: rgb(125, 125, 125);
         font-size: 13px;
     }
+    & input{
+        width: 80%;
+    }
+    @media ( max-width: 899px) {
+        width: 75%;
+        background-color: white;
+    }
 }
 .add_comment {
     align-self: center;
     display: flex;
     flex-direction: row;
     width: 500px;
+    @media ( max-width: 899px) {
+        display: flex;
+        flex-flow: column nowrap;
+        align-self: center;
+        width: 75%;
+        & input{
+        width: 95%;
+        }
+    }
 }
 </style>

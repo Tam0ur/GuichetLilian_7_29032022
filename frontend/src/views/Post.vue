@@ -72,6 +72,10 @@ export default {
         & input {
                 width: 300px;
         }
+        @media (max-width: 899px) {
+                background-color: white;
+                width: 85%;
+        }
 }
 body{
         height: 100vh;

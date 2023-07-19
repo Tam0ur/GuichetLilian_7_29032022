@@ -50,16 +50,6 @@ export default {
 </script>
 
 <style lang="scss">
-.div_app{
-  display: grid;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.logo{
-  margin-top: 25px;
-  margin-bottom: 25px;
-}
 
 nav {
   margin-top: 150px;
@@ -68,7 +58,6 @@ nav {
   display: flex;
   position: fixed;
   flex-direction: column;
-
 
   text-align: center;
   justify-content: center;
@@ -113,6 +102,37 @@ nav {
       background-color: #94e1be;
     }
   }
+  @media (max-width: 899px) {
+    z-index: 1;
+    position: fixed;
+    
+    margin: 0;
+    
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-flow: row nowrap ;
+    justify-content: space-around;
+    width: 100%;
+    border-bottom: none;
+    border-left: none;
+    border-radius: 0;
+    
+  }
+}
+
+.div_app{
+  display: grid;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.logo{
+  margin-top: 25px;
+  margin-bottom: 25px;
+  @media (max-width: 899px) {
+    width: 275px;
+  }
 }
 
 .div_else {
@@ -144,7 +164,13 @@ nav {
       transition-duration: 0s;
     }
   }
+  @media (max-width: 599px) {
+    a {
+      font-size: 25px;
+    }
+  }
 }
+
 * {
     font-family: Verdana, sans-serif;
   }
@@ -157,9 +183,13 @@ nav {
   -moz-osx-font-smoothing: grayscale;
   
   color: #2c3e50;
+  @media (max-width: 599px) {
+    margin-bottom: 75px;
+  }
 }
 html{
   height: fit-content;
+  
 }
 
 body {
@@ -188,6 +218,5 @@ input {
   border: 1px solid grey;
   border-radius: 3px;
 }
-
 
 </style>

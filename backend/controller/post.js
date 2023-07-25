@@ -86,16 +86,29 @@ exports.updatePost = (req, res, next) => {
             if ( !error_1 ){
                 const post_userId = result_1[0].utilisateur_id;
                 if( res.locals.userId == post_userId || res.locals.isAdmin == 1 ){
-                    connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
-                    [text,image , req.params.id],
-                    (error_2, result_2) => {
-                        if ( !error_2 ){
-                            res.status(200).json({result_2});
-                        }
-                        else {
-                            res.status(500).json({ error_2 : 'Problème mise à jour poste.'})
-                        } 
-                    });
+                    if ( image == null ){
+                        connection.query('UPDATE poste SET texte = ?, date_Modification = NOW() WHERE id = ?',
+                        [text, req.params.id],
+                        (error_2, result_2) => {
+                            if ( !error_2 ){
+                                res.status(200).json({result_2});
+                            }
+                            else {
+                                res.status(500).json({ error_2 : 'Problème mise à jour poste.'})
+                            } 
+                        });
+                    } else {
+                        connection.query('UPDATE poste SET texte = ?, image = ?, date_Modification = NOW() WHERE id = ?',
+                        [text, image, req.params.id],
+                        (error_2, result_2) => {
+                            if ( !error_2 ){
+                                res.status(200).json({result_2});
+                            }
+                            else {
+                                res.status(500).json({ error_2 : 'Problème mise à jour poste.'})
+                            } 
+                        });
+                    }
                 } else {
                     res.status(403).json({
                         message: 'unauthorized request.'

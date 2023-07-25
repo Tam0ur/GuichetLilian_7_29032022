@@ -42,15 +42,15 @@ exports.login = (req, res, next ) => {
         email: req.body.email,
         mdp: req.body.mdp
     };
-    connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (err, result) => {
-        if ( result[0].email != user.email ){
-            return res.status(401).json({error : 'Email incorrect.' });
+    connection.query('SELECT * FROM utilisateur WHERE email LIKE ? ', user.email, (error, result) => {
+        if (result.length === 0) {
+            return res.status(401).json({ error: 'Email non valide.' });
         }
         else {
             bcrypt.compare(user.mdp, result[0].mdp )
             .then(valid => {
                 if (!valid){//gestion si le mdp ne correspond pas
-                    return res.status(401).json({ error : 'Mot de passe incorrect.'});
+                    return res.status(401).json({error : 'Mot de passe incorrect.'});
                 }
                 res.status(200).json({
                     token: jwt.sign(
@@ -64,7 +64,7 @@ exports.login = (req, res, next ) => {
             })
             .catch(error => res.status(500).json({ error }));
         }
-    }); 
+    });
 };
 
 //gestion suppression utilisateur

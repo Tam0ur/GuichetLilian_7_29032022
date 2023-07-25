@@ -1,5 +1,5 @@
 <template>
-	<div class="form_login">
+	<form class="form_login" @submit.prevent="login">
 		<div>
 			<label for="inputEmail">E-mail</label>
 			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
@@ -8,12 +8,9 @@
 			<label for="inputMdp">Mot de passe</label>
 			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
 		</div>
-
-		<button @click="login">Valider</button>
-		<div id="alerte">
-			<p>Mot de passe incorrect !</p>
-		</div>
-	</div>
+		<div id="errorMessage"></div>
+		<button>Valider</button>
+	</form>
 	
 </template>
 
@@ -46,7 +43,7 @@
 					axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
 					router.push('/')
 				}).catch(error => {
-					document.getElementById('alerte').style.display = "block";
+					document.getElementById("errorMessage").textContent = error.response.data.error;
 					console.log(error)
 				})
 			}
@@ -55,12 +52,15 @@
 </script>
 
 <!-- HTML !-->
-<button class="button-6" role="button">Button 6</button>
-
-
 
 <style lang="scss">
-
+#errorMessage{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	color: rgb(208, 28, 28);
+	font-weight: bold;
+	display: block;
+}
 
 .form_login {
 	display: flex;

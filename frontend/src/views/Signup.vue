@@ -1,26 +1,26 @@
 
 <template>
-	<div class="form_signup">
+	<form  class="form_signup" @submit.prevent="signup">
 		<div>
 				<label for="inputNom">Nom </label>
-				<input type="text" id="inputNom" v-model="nom" placeholder="Doe" required>
+				<input type="text" id="inputNom" v-model="nom" placeholder="Doe" required v-on:keypress="isLetter($event)">
 		</div>
 		<div>
 				<label for="inputPrenom">Prénom</label>
-				<input type="text" id="inputPrenom" v-model="prenom" placeholder="John" required>
+				<input type="text" id="inputPrenom" v-model="prenom" placeholder="John" required v-on:keypress="isLetter($event)">
 		</div>
 		<div>
 			<label for="inputEmail">E-mail</label>
-			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required>
+			<input type="email" id="inputEmail" v-model="email" placeholder="john.doe@example.com" required >
 		</div>
 		<div>
-			<label for="inputMdp">Mot de passe</label>
-			<input type="password" id="inputMdp" v-model="mdp" placeholder="" required>
+			<label for="inputMdp" >Mot de passe</label>
+			<input type="password" id="inputMdp" minlength="12" v-model="mdp" placeholder="" required>
 
 		</div>
 
-		<button @click="signup">Valider</button>
-	</div>
+		<button>Valider</button>
+	</form>
 </template>
 
 <script>
@@ -49,6 +49,11 @@
 				}).catch(error => {
 					console.log(error)
 				})
+			},
+			isLetter(e) {
+				let char = String.fromCharCode(e.keyCode); // Get the character
+				if(/^[A-Za-z]+$/.test(char)) return true; // Match with regex 
+				else e.preventDefault(); // If not match, don't add to input text
 			}
 		}
 	}
